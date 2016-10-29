@@ -55,7 +55,7 @@ class Chess
 		int endy;
 	public:
 
-		//--- Places the Pieces for player 1 ---
+		//--- Places the Pieces ---
 		Chess()
 			{
 			for(int yy = 0; yy < 8; yy++)
@@ -66,21 +66,70 @@ class Chess
 				}
 			}
 			
+			//--- Places the Player 2 pieces ---
 			Gameboard[3][7] = P2King, Gameboard[4][7] = P2Queen, Gameboard[0][7] = P2Rook, Gameboard[7][7] = P2Rook, Gameboard[1][7] = P2Knights, Gameboard[6][7] = P2Knights, Gameboard[2][7] = P2Bishop, Gameboard[5][7] = P2Bishop;
 			for(int xx = 0; xx < 8; xx++)
 				Gameboard[xx][6] = P2Pawns;
 
+			//--- Places the Player 1 pieces ---
 			Gameboard[3][0] = P1King, Gameboard[4][0] = P1Queen, Gameboard[0][0] = P1Rook, Gameboard[7][0] = P1Rook, Gameboard[1][0] = P1Knights, Gameboard[6][0] = P1Knights, Gameboard[2][0] = P1Bishop, Gameboard[5][0] = P1Bishop;
 			for(int xx = 0; xx < 8; xx++)
 				Gameboard[xx][1] = P1Pawns;
 			}
 
-		void moveKing(int beginningx, int beginningy);
-		void moveQueen(int beginningx, int beginningy);
-		void moveRook(int beginningx, int beginningy);
-		void moveKnights(int beginningx, int beginningy);
+		//--- To check the rules of the King piece ---
+		void moveKing(int beginningx, int beginningy)
+			{
+			cout << "Please enter the place you want to move your King" << endl;
+			cout << "ROW [Enter Letter]: ";
+			cin >> rowletter;
+			cout << "COLUMN [Enter Number] ";
+			cin >> endy;
+			int endx = getlocationx(rowletter);
 
 
+			}
+
+		//--- To check the rules of the Queen piece ---
+		void moveQueen(int beginningx, int beginningy)
+			{
+			cout << "Please enter the place you want to move your Queen" << endl;
+			cout << "ROW [Enter Letter]: ";
+			cin >> rowletter;
+			cout << "COLUMN [Enter Number] ";
+			cin >> endy;
+			int endx = getlocationx(rowletter);
+
+
+			}
+
+		//--- To check the rules of the Rook piece ---
+		void moveRook(int beginningx, int beginningy)
+			{
+			cout << "Please enter the place you want to move your Rook" << endl;
+			cout << "ROW [Enter Letter]: ";
+			cin >> rowletter;
+			cout << "COLUMN [Enter Number] ";
+			cin >> endy;
+			int endx = getlocationx(rowletter);
+
+
+			}
+
+		//--- To check the rules of the Knight piece ---
+		void moveKnights(int beginningx, int beginningy)
+			{
+			cout << "Please enter the place you want to move your Knights" << endl;
+			cout << "ROW [Enter Letter]: ";
+			cin >> rowletter;
+			cout << "COLUMN [Enter Number] ";
+			cin >> endy;
+			int endx = getlocationx(rowletter);
+
+
+			}
+
+		//--- To check the rules of the Bishop piece ---
 		void moveBishop(int beginningx, int beginningy)
 			{
 			cout << "Please enter the place you want to move your Bishop" << endl;
@@ -93,7 +142,7 @@ class Chess
 
 			}
 
-
+		//--- To check the rules of the Pawn piece ---
 		void movePawn(int beginningx, int beginningy)
 			{
 			cout << "Please enter the place you want to move your Pawn" << endl;
@@ -108,7 +157,8 @@ class Chess
 				Gameboard[beginningx][beginningy] = Blank;
 				}
 			}
-
+		
+		//--- Prints the board ---
 		void display()
 			{
 			int counter = 0;
@@ -125,8 +175,8 @@ class Chess
 				}
 			}
 		
-		//------ Fix --------------
-		void checkpiece(int beginningx, int beginningy)
+		//--- Figures out what Piece the user entered to check the rules ---
+		void checkpiece(int beginningx, int beginningy) //--- Future: make it for two players 
 			{
 			if(Gameboard[beginningx][beginningy] == P1Pawns)
 				{
@@ -138,9 +188,32 @@ class Chess
 				moveBishop(beginningx, beginningy);
 				}
 
+			if(Gameboard[beginningx][beginningy] == P1King)
+				{
+				moveKing(beginningx, beginningy);
+				}
 
+			if(Gameboard[beginningx][beginningy] == P1Queen)
+				{
+				moveQueen(beginningx, beginningy);
+				}
+
+			if(Gameboard[beginningx][beginningy] == P1Knights)
+				{
+				moveKnights(beginningx, beginningy);
+				}
+
+			if(Gameboard[beginningx][beginningy] == P1Rook)
+				{
+				moveRook(beginningx, beginningy);
+				}
+
+
+			else
+				{
+				cout << "Sorry there is no piece in this spot!" << endl;
+				}
 			}
-
 
 
 
@@ -153,7 +226,7 @@ void main()
 	char letterx;
 	Chess Game;
 	Game.display();
-	cout << "Please " << endl;
+	cout << "Please enter a space on the board: " << endl;
 	cout << "ROW [Enter Letter]: ";
 	cin >> letterx;
 	cout << "COLUMN [Enter Number] ";
@@ -164,5 +237,3 @@ void main()
 	Game.display();
 
 	}
-
-
