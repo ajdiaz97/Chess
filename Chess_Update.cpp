@@ -20,6 +20,18 @@ Chess::Chess()
 	//-----------------
 	Blank = "   ";
 
+	//--- Player 1 name ---
+	cout << "Hello Player 1! Before we start what is your name?" << endl;
+	cin >> name1;
+	cout << "Thank you " + name1 + "!" << endl;
+
+	//--- Player 2 name ---
+	cout << "Hello Player 2! Before we start what is your name?" << endl;
+	cin >> name2;
+	cout << "Thank you " + name2 + "!" << endl;
+
+	
+
 
 	//--- Initializes the Board ---
 	for (int yy = 0; yy < 8; yy++)
@@ -60,7 +72,31 @@ void Chess :: display()
 
 void Chess::makeMove(int player)
 	{
+	string input;
+	for (;;)
+		{
+		if (player == 1)
+			{
+			cout << name1 + " it is your turn! " << endl;
+			cout << "Please choose a starting point [The Input Should Look Like: A4] For more help type 'HELP'" << endl;
+			cin >> input;
 
+			if (youCan(input))
+				{
+				vector<string> listOfInformation = getInfo(input);
+				
+				if (checksValidity(listOfInformation[0], atoi(listOfInformation[1].c_str()), atoi(listOfInformation[2].c_str()), atoi(listOfInformation[3].c_str()), atoi(listOfInformation[4].c_str()), 1))
+					{
+					gameBoard[atoi(listOfInformation[1].c_str())][atoi(listOfInformation[2].c_str())] = Blank;
+					gameBoard[atoi(listOfInformation[3].c_str())][atoi(listOfInformation[4].c_str())] = listOfInformation[0];
+					}
+				else
+					{
+					cerr << "Sorry this is not a Valid Move try again" << endl;
+					}
+				}
+			}
+		}
 	}
 
 bool Chess::checksValidity(string piece, int startX, int startY, int endX, int endY, int player)
@@ -97,10 +133,11 @@ bool Chess::pawnValid(int player, int startX, int startY, int endX, int endY)
 	{
 	if (player == 1)
 		{
-
+		return true;
 		}
 	else
 		{
+		return true;
 
 		}
 	}
@@ -108,10 +145,12 @@ bool Chess::rookValid(int player, int startX, int startY, int endX, int endY)
 	{
 	if (player == 1)
 		{
+		return true;
 
 		}
 	else
 		{
+		return true;
 
 		}
 	}
@@ -120,10 +159,12 @@ bool Chess :: knightValid(int player, int startX, int startY, int endX, int endY
 	{
 	if (player == 1)
 		{
+		return true;
 
 		}
 	else
 		{
+		return true;
 
 		}
 	}
@@ -131,10 +172,12 @@ bool Chess :: bishopValid(int player, int startX, int startY, int endX, int endY
 	{
 	if (player == 1)
 		{
+		return true;
 
 		}
 	else
 		{
+		return true;
 
 		}
 	}
@@ -142,10 +185,12 @@ bool Chess :: kingValid(int player, int startX, int startY, int endX, int endY)
 	{
 	if (player == 1)
 		{
+		return true;
 
 		}
 	else
 		{
+		return true;
 
 		}
 	}
@@ -153,10 +198,12 @@ bool Chess::queenValid(int player, int startX, int startY, int endX, int endY)
 	{
 	if (player == 1)
 		{
+		return true;
 
 		}
 	else
 		{
+		return true;
 
 		}
 	}

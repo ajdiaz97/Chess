@@ -2,6 +2,7 @@
 
 
 
+
 void main()
 	{
 	Chess ch;
