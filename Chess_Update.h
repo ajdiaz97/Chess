@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 
@@ -30,25 +31,34 @@ public:
 	bool checksValidity(string piece, int startX, int startY, int endX, int endY, int player);
 
 	//--- For Pawns ---
-	bool pawnValid(int player, int startX, int startY, int endX, int endY);
+	bool pawnValid(int startX, int startY, int endX, int endY, int player);
 
 	//--- For Rooks
-	bool rookValid(int player, int startX, int startY, int endX, int endY);
+	bool rookValid(int startX, int startY, int endX, int endY, int player);
 
 	//--- For Knights
-	bool knightValid(int player, int startX, int startY, int endX, int endY);
+	bool knightValid(int startX, int startY, int endX, int endY, int player);
 
 	//--- For Bishops ---
-	bool bishopValid(int player, int startX, int startY, int endX, int endY);
+	bool bishopValid(int startX, int startY, int endX, int endY, int player);
 
 	//--- For King ---
-	bool kingValid(int player, int startX, int startY, int endX, int endY);
+	bool kingValid(int startX, int startY, int endX, int endY, int player);
 
 	//--- For Queen ---
-	bool queenValid(int player, int startX, int startY, int endX, int endY);
+	bool queenValid(int startX, int startY, int endX, int endY, int player);
 
 	//--- Prints the Board ---
 	void display();
+
+	//--- Makes sure that the input isnt an empty spot for the start point ---
+	bool youCanS(string input);
+
+	//--- Makes sure that the input isnt an putting pieces in his own spot ---
+	bool youCanE(string input, int player);
+
+	//--- Gets the information for the checksValidity function ---
+	vector<string> getInfo(string input, string input2, int player);
 };
 
 
