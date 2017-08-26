@@ -46,14 +46,14 @@ Chess::Chess()
 	Blank = "   ";
 
 	//--- Player 1 name ---
-	//cout << "Hello Player 1! Before we start what is your name?" << endl;
-	//cin >> name1;
-	//cout << "Thank you " + name1 + "!" << endl;
+	cout << "Hello Player 1! Before we start what is your name?" << endl;
+	cin >> name1;
+	cout << "Thank you " + name1 + "!" << endl;
 
 	//--- Player 2 name ---
-	//cout << "Hello Player 2! Before we start what is your name?" << endl;
-	//cin >> name2;
-	//cout << "Thank you " + name2 + "!" << endl;
+	cout << "Hello Player 2! Before we start what is your name?" << endl;
+	cin >> name2;
+	cout << "Thank you " + name2 + "!" << endl;
 
 	
 
@@ -122,16 +122,20 @@ bool Chess::youCanE(string input, int player)
 		{
 		//--- If the piece is blank it is okay to put the piece ---
 		if (gameBoard[getLetterLocation(input[0])][conv] == Blank)
+			{
 			return true;
+			}
 
 		//--- False if it's its own piece
 		else if (gameBoard[getLetterLocation(input[0])][conv] == P1King ||
-				gameBoard[getLetterLocation(input[0])][conv] == P1Queen ||
-					gameBoard[getLetterLocation(input[0])][conv] == P1Rook ||
-						gameBoard[getLetterLocation(input[0])][conv] == P1Knights ||
-							gameBoard[getLetterLocation(input[0])][conv] == P1Bishop ||
-								gameBoard[getLetterLocation(input[0])][conv] == P1Pawns)
-									return false;
+					gameBoard[getLetterLocation(input[0])][conv] == P1Queen ||
+						gameBoard[getLetterLocation(input[0])][conv] == P1Rook ||
+							gameBoard[getLetterLocation(input[0])][conv] == P1Knights ||
+								gameBoard[getLetterLocation(input[0])][conv] == P1Bishop ||
+									gameBoard[getLetterLocation(input[0])][conv] == P1Pawns)
+										{
+										return false;
+										}
 		//--- True if it is not ---
 		else if (gameBoard[getLetterLocation(input[0])][conv] == P2King ||
 					gameBoard[getLetterLocation(input[0])][conv] == P2Queen ||
@@ -139,9 +143,9 @@ bool Chess::youCanE(string input, int player)
 							gameBoard[getLetterLocation(input[0])][conv] == P2Knights ||
 								gameBoard[getLetterLocation(input[0])][conv] == P2Bishop ||
 									gameBoard[getLetterLocation(input[0])][conv] == P2Pawns)
+										{
 										return true;
-
-
+										}
 		}
 
 	//--- Checks and sees if player 2 is not hitting his own piece ---
@@ -149,7 +153,9 @@ bool Chess::youCanE(string input, int player)
 		{
 		//--- If the piece is blank it will be true //Checks this first ---
 		if (gameBoard[getLetterLocation(input[0])][conv] == Blank)
+			{
 			return true;
+			}
 
 		//--- True if it is not its own piece ---
 		else if (gameBoard[getLetterLocation(input[0])][conv] == P1King ||
@@ -159,20 +165,22 @@ bool Chess::youCanE(string input, int player)
 								gameBoard[getLetterLocation(input[0])][conv] == P1Bishop ||
 									gameBoard[getLetterLocation(input[0])][conv] == P1Pawns)
 										{
-										cerr << "Can't attack your own piece" << endl;
 										return true;
 										}
 
 		//--- False if it is ---
 		else if (gameBoard[getLetterLocation(input[0])][conv] == P2King ||
 					gameBoard[getLetterLocation(input[0])][conv] == P2Queen ||
-							gameBoard[getLetterLocation(input[0])][conv] == P2Rook ||
-								gameBoard[getLetterLocation(input[0])][conv] == P2Knights ||
-									gameBoard[getLetterLocation(input[0])][conv] == P2Bishop ||
-										gameBoard[getLetterLocation(input[0])][conv] == P2Pawns)
-											return false;
+						gameBoard[getLetterLocation(input[0])][conv] == P2Rook ||
+							gameBoard[getLetterLocation(input[0])][conv] == P2Knights ||
+								gameBoard[getLetterLocation(input[0])][conv] == P2Bishop ||
+									gameBoard[getLetterLocation(input[0])][conv] == P2Pawns)
+										{
+										return false;
+										}
 		}
-	
+
+	return false;
 	}
 
 
@@ -233,32 +241,54 @@ void Chess::makeMove(int player)
 	{
 	string input;
 	
-			cout << name1 + " it is your turn! " << endl;
-			cout << "Please choose a starting point [The Input Should Look Like: A4] For more help type 'HELP'" << endl;
+			if(player == 1)
+				cout << name1 + " it is your turn! " << endl;
+			else
+				cout << name2 + " it is your turn! " << endl;
+
+			cout << "Please choose a starting point [The Input Should Look Like: A4]. If you win ";
+			
+			if (player == 1)
+				cout << name1;
+			else
+				cout << name2;
+			cout << " then type in [WIN]" << endl;
 			cin >> input;
+
+			if(input == "WIN" || input == "win")
+				gameover(name1);
 
 		if (youCanS(input))
 				{
 				string input2;
-				cout << "Please choose an ending point [The Input Should Look Like: A4] For more help type 'HELP'" << endl;
+				cout << "Please choose an ending point [The Input Should Look Like: A4]" << endl; 
+
 				cin >> input2;
+
 				if (youCanE(input2, player))
 					{
 					vector<string> listOfInformation = getInfo(input, input2, player);
-
+					
 					if (checksValidity(listOfInformation[0], atoi(listOfInformation[1].c_str()),
 						atoi(listOfInformation[2].c_str()), atoi(listOfInformation[3].c_str()), atoi(listOfInformation[4].c_str()), atoi(listOfInformation[5].c_str())))
 							{
+							cout << "~~~ COMPLETE ~~~" << endl;
 							gameBoard[atoi(listOfInformation[3].c_str())][atoi(listOfInformation[4].c_str())] = listOfInformation[0];
 							gameBoard[atoi(listOfInformation[1].c_str())][atoi(listOfInformation[2].c_str())] = Blank;
 							}
 					else
+						{
+						
 						cerr << "Not a valid Move" << endl;
-
-
+						makeMove(player);
+						}
 					}
 				else
+					{
 					cerr << "You're Ending point in not valid" << endl;
+					makeMove(player);
+					}
+					
 				}
 	}
 
@@ -266,55 +296,49 @@ void Chess::makeMove(int player)
 //--- After finding the piece it checks to make sure the piece is making a valid move ---
 bool Chess::checksValidity(string piece, int startX, int startY, int endX, int endY, int player)
 	{
-	if (piece == P1Pawns)
+	if (piece == P1Pawns || piece == P2Pawns)
 		return pawnValid(startX, startY, endX, endY, player);
-	else if (piece == P2Pawns)
-		return pawnValid(startX, startY, endX, endY, player);
-	else if (piece == P1Rook)
+	else if (piece == P1Rook || piece == P2Rook)
 		return rookValid(startX, startY, endX, endY, player);
-	else if (piece == P2Bishop)
-		return rookValid(startX, startY, endX, endY, player);
-	else if (piece == P1Knights)
+	else if (piece == P1Knights || piece == P2Knights)
 		return knightValid(startX, startY, endX, endY, player);
-	else if (piece == P2Knights)
-		return knightValid(startX, startY, endX, endY, player);
-	else if (piece == P1King)
+	else if (piece == P1King || piece == P2King)
 		return kingValid(startX, startY, endX, endY, player);
-	else if (piece == P2King)
-		return kingValid(startX, startY, endX, endY, player);
-	else if (piece == P1Queen)
+	else if (piece == P1Queen || piece == P2Queen)
 		return queenValid(startX, startY, endX, endY, player);
-	else if (piece == P2Queen)
-		return queenValid(startX, startY, endX, endY, player);
-	else if (piece == P1Bishop)
-		return bishopValid(startX, startY, endX, endY, player);
-	else if (piece == P2Bishop)
+	else if (piece == P1Bishop || piece == P2Bishop)
 		return bishopValid(startX, startY, endX, endY, player);
 	else
 		return false;
 	}
 
+//----------------------------------
+
 //--- Pawns ---
 bool Chess::pawnValid(int startX, int startY, int endX, int endY, int player)
 	{
 	//--- Checks to see if the piece is in its first turn where it can jump two places ---
-	if ((startY == 6 && endY == 4 && player == 2 && endX == startX && gameBoard[endX][endY] == Blank) || (startY == 1 && endY == 3 && player == 1 && endX == startX && gameBoard[endX][endY] == Blank))
-		{
-		return true;
-		}
+	if ((startY == 6 && endY == 4 && player == 2 && endX == startX && gameBoard[endX][endY] == Blank) ||
+			(startY == 1 && endY == 3 && player == 1 && endX == startX && gameBoard[endX][endY] == Blank))
+				{
+				return true;
+				}
 
 	//--- Checks to see if the piece is trying to 'take out' the other players piece and it can only attack diagonally ---
-	else if ((player == 1 && gameBoard[endX][endY] != Blank && endX == startX - 1 && startX != 0 && endY == startY + 1) || (player == 1 && gameBoard[endX][endY] != Blank && endX == startX + 1 && startX != 7 && endY == startY + 1)
-		|| (player == 2 && gameBoard[endX][endY] != Blank && endX == startX - 1 && startX != 0 && endY == startY - 1) || (player == 2 && gameBoard[endX][endY] != Blank && endX == startX + 1 && startX != 7 && endY == startY - 1))
-		{
-		return true;
-		}
+	else if ((player == 1 && gameBoard[endX][endY] != Blank && endX == startX - 1 && startX != 0 && endY == startY + 1) 
+				|| (player == 1 && gameBoard[endX][endY] != Blank && endX == startX + 1 && startX != 7 && endY == startY + 1)
+					|| (player == 2 && gameBoard[endX][endY] != Blank && endX == startX - 1 && startX != 0 && endY == startY - 1) 
+						|| (player == 2 && gameBoard[endX][endY] != Blank && endX == startX + 1 && startX != 7 && endY == startY - 1))
+							{
+							return true;
+							}
 
 	//--- Checks to see if the piece just wants to move forward one ---
-	else if ((player == 1 && endY == startY + 1 && endX == startX && gameBoard[endX][endY] == Blank) || (player == 2 && endY == startY - 1 && endX == startX && gameBoard[endX][endY] == Blank))
-		{
-		return true;
-		}
+	else if ((player == 1 && endY == startY + 1 && endX == startX && gameBoard[endX][endY] == Blank) ||
+				(player == 2 && endY == startY - 1 && endX == startX && gameBoard[endX][endY] == Blank))
+					{
+					return true;
+					}
 
 	//--- If none of these conditions are met the piece cannot move ---
 	else
@@ -322,24 +346,293 @@ bool Chess::pawnValid(int startX, int startY, int endX, int endY, int player)
 		return false;
 		}
 	}
+
+//-------------------------------------------
+
+
+//--- Rooks --- 
 bool Chess::rookValid(int startX, int startY, int endX, int endY, int player)
 	{
-	return true;
+	int checkUD = startY; //Check UP or DOWN
+	int checkLR = startX; //Check LEFT or RIGHT
+
+	
+	//--- Checks Up ---
+	if (endY < startY)
+		{
+		for (int ii = startY; ii > endY; ii--)
+			{
+			//--- Once a Piece is hit then it will remember where ---
+			if (gameBoard[startX][ii - 1] != Blank)
+				{
+				break;
+				}
+			checkUD--;
+			}
+
+		//--- Makes sure that the Rook will not go over a piece, but can attack the enemy if it goes on top of it --- [Same for all]
+		if (endX == startX && (endY >= checkUD || (endY >= checkUD - 1 && gameBoard[endX][endY] != Blank)))
+			return true;
+		else
+			return false;
+
+		}
+	//--- Checks Down ---
+	else if (endY > startY)
+		{
+		for (int ii = startY; ii < endY; ii++)
+			{
+			if (gameBoard[startX][ii + 1] != Blank)
+				{
+				break;
+				}
+			checkUD++;
+			}
+
+		if (endX == startX && (endY <= checkUD || (endY <= checkUD + 1 && gameBoard[endX][endY] != Blank)))
+			return true;
+		else
+			return false;
+		}
+
+	//--- Checks right --- 
+	else if (endX > startX)
+		{
+		for (int ii = startX; ii < endX; ii++)
+			{
+			if (gameBoard[ii + 1][startY] != Blank)
+				{
+				break;
+				}
+			checkLR++;
+			}
+		if (endY == startY && (endX <= checkLR || (endX <= checkLR + 1 && gameBoard[endX][endY] != Blank)))
+			return true;
+	
+		else
+			return false;
+		}
+	
+	//--- Checks left --- 
+	else if (endX < startX)
+		{
+		for (int ii = startX; ii > endX; ii--)
+			{
+			if (gameBoard[ii - 1][startY] != Blank)
+				{
+				break;
+				}
+			checkLR--;
+			}
+		if (endY == startY && (endX >= checkLR || (endX >= checkLR - 1 && gameBoard[endX][endY] != Blank && startX == endX)))
+			return true;
+		else
+			return false;
+		}
+	return false; //If nothing is brought up assume it will be false 
 	}
 
+//----------------------------
+
+//--- Knight ---
 bool Chess :: knightValid(int startX, int startY, int endX, int endY, int player)
 	{
-	return true;
+	if ((endY == startY + 2 && endX == startX + 1) || 
+			(endY == startY + 2 && endX == startX - 1) || 
+				(endY == startY - 2 && endX == startX + 1) ||
+					(endY == startY - 2 && endX == startX - 1) ||
+						(endX == startX + 2 && endY == startY + 1) ||
+							(endX == startX + 2 && endY == startY - 1) ||
+								(endX == startX - 2 && endY == startY + 1) ||
+									(endX == startX - 2 && endY == startY - 1))
+										return true;
+	else
+		return false;
 	}
+
+//-----------------------------
+
+
+//--- Bishop --- 
 bool Chess :: bishopValid(int startX, int startY, int endX, int endY, int player)
 	{
-	return true;
+	int checkUD = startY; //Check UP or DOWN
+	int checkLR = startX; //Check LEFT or RIGHT
+	bool flag = false; //Makes sure the nested loop will be left 
+
+	//--- If down-left ---
+	if (endY > startY && endX < startX)
+		{
+		for (int xx = startX; xx > endX; xx--)
+			{
+			if (flag == true)
+				break;
+
+			for (int yy = startY; yy < endY; yy++)
+				{
+				//--- Once a Piece is hit then it will remember where ---
+				if (gameBoard[xx - 1][yy + 1] != Blank)
+					{
+					flag = true;
+					break;
+					}
+				checkUD++;
+				checkLR--;
+				}
+			}
+		//--- Makes sure that the Bishop will not go over a piece, but can attack the enemy if it goes on top of it --- [Same for all]
+		if (endY <= checkUD && endX >= checkLR || (endY <= checkUD + 1 && endX >= checkLR - 1 && gameBoard[endX][endY] != Blank))
+			return true;
+		else
+			return false;
+
+		}
+
+	//--- Checks down-right --- 
+	else if (endY > startY && endX > startX)
+		{
+		for (int xx = startX; xx < endX; xx++)
+			{
+			if (flag == true)
+				break;
+
+			for (int yy = startY; yy < endY; yy++)
+				{
+				//--- Once a Piece is hit then it will remember where ---
+				if (gameBoard[xx + 1][yy + 1] != Blank)
+					{
+					flag = true;
+					break;
+					}
+				checkUD++;
+				checkLR++;
+				}
+			}
+
+		//--- Makes sure that the Bishop will not go over a piece, but can attack the enemy if it goes on top of it --- [Same for all]
+		if (endY <= checkUD && endX <= checkLR || (endY <= checkUD + 1 && endX <= checkLR + 1 && gameBoard[endX][endY] != Blank))
+			return true;
+		else
+			return false;
+
+		}
+	
+	//--- If up-left ---
+	else if (endY < startY && endX < startX)
+		{
+		for (int xx = startX; xx > endX; xx--)
+			{
+			if (flag == true)
+				break;
+			
+			for (int yy = startY; yy > endY; yy--)
+					{
+					//--- Once a Piece is hit then it will remember where ---
+					if (gameBoard[xx - 1][yy - 1] != Blank)
+						{
+						flag = true;
+						break;
+						}
+				checkUD--;
+				checkLR--;
+				}
+			}
+		//--- Makes sure that the Bishop will not go over a piece, but can attack the enemy if it goes on top of it --- [Same for all]
+		if (endY >= checkUD && endX >= checkLR || (endY >= checkUD - 1 && endX >= checkLR - 1 && gameBoard[endX][endY] != Blank))
+			return true;
+		else
+			return false;
+		}
+
+	//--- Checks up-right --- 
+	else if (endY < startY && endX > startX)
+		{
+		for (int xx = startX; xx < endX; xx++)
+			{
+			if (flag == true)
+				break;
+			for (int yy = startY; yy > endY; yy--)
+				{
+				//--- Once a Piece is hit then it will remember where ---
+				if (gameBoard[xx + 1][yy - 1] != Blank)
+					{
+					flag = true;
+					break;
+					}
+				checkUD--;
+				checkLR++;
+				}
+			}
+		//--- Makes sure that the Bishop will not go over a piece, but can attack the enemy if it goes on top of it --- [Same for all]
+		if (endY >= checkUD && endX <= checkLR || (endY >= checkUD - 1 && endX <= checkLR + 1 && gameBoard[endX][endY] != Blank))
+			return true;
+		else
+			return false;
+		}
+
+	return false; //If nothing is brought up assume it will be false 
 	}
+
+//--- King ---
 bool Chess :: kingValid(int startX, int startY, int endX, int endY, int player)
 	{
-	return true;
+	if (((endX == startX + 1 || endX == startX - 1) && (endY == startY)) || 
+			((endY == startY + 1 || endY == startY - 1) && (endX == startX)) || 
+				(endX == startX + 1 && endY == startY + 1) ||
+					(endX == startX + 1 && endY == startY - 1) || 
+						(endX == startX - 1 && endY == startY + 1) || 
+							(endX == startX - 1 && endY == startY - 1))
+								return true;
+	else
+		return false;
 	}
+
+//------------------------------
+
+//--- Queen ---
 bool Chess::queenValid(int startX, int startY, int endX, int endY, int player)
 	{
-	return true;
+	if (pawnValid(startX, startY, endX, endY, player))
+		return true;
+	else if (rookValid(startX, startY, endX, endY, player))
+		return true;
+	else if (knightValid(startX, startY, endX, endY, player))
+		return true;
+	else if (kingValid(startX, startY, endX, endY, player))
+		return true;
+	else if (bishopValid(startX, startY, endX, endY, player))
+		return true; 
+		
+	return false;
+	}
+
+
+//--- Game where you type in win if you win and it switches between people automatically ---
+void Chess::game()
+	{
+	bool end = false;
+	int player = 1;
+	cout << "~ Welcome to Chess! ~" << endl;
+
+	while (!end)
+		{
+		display();
+		if (player == 1)
+			{
+			player = 2;
+			makeMove(1);
+			}
+		else
+			{
+			player = 1;
+			makeMove(2);
+			}
+		}
+	}
+
+void Chess::gameover(string winner)
+	{
+	cout << "CONGRATS " + winner + " YOU WIN!!!!" << endl;
+	system("PAUSE");
+	exit(0);
 	}

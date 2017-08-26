@@ -57,6 +57,12 @@ public:
 	//--- Makes sure that the input isnt an putting pieces in his own spot ---
 	bool youCanE(string input, int player);
 
+	//--- The actual game ---
+	void game();
+
+	//--- Announces winner ---
+	void gameover(string winner);
+
 	//--- Gets the information for the checksValidity function ---
 	vector<string> getInfo(string input, string input2, int player);
 };
